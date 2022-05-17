@@ -1,0 +1,27 @@
+#!/bin/bash -l
+
+#SBATCH -A uppmax2022-2-5
+#SBATCH -M snowy
+#SBATCH -p core
+#SBATCH -n 2
+#SBATCH -t 20:00:00
+#SBATCH -J Htseq_RNA_counts
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user maya.baghdysar@outlook.com
+
+# Loading modules 
+module load bioinfo-tools
+module load samtools
+module load htseq
+
+# Commands
+
+outputdir=/home/mayaba/Maya/Maya-paper1/genome_analyses/output_data/Htseq_output
+genome_gff=/home/mayaba/Maya/Maya-paper1/genome_analyses/output_data/03_annotation_output_data/Modified_annotation_output_data_prokka.gff
+bwa=/home/mayaba/Maya/Maya-paper1/genome_analyses/output_data/RNA_mapping
+#for x in $bwa/*.bam;do samtools index $x;done
+#for x in $bwa/*.bam;do htseq-count -f bam -r pos -t CDS -i ID -s no $x $genome_gff > $outputdir/$(basename -- "${x%.*}").txt;done
+
+
+x=/home/mayaba/Maya/Maya-paper1/genome_analyses/output_data/RNA_mapping/ERR1797974.bam
+htseq-count -f bam -r pos -t CDS -i ID -s no $x $genome_gff > $outputdir/$(basename -- "${x%.*}").txt
